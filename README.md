@@ -1,27 +1,27 @@
-# WooCommerce MCP server — through HeyMetra
+<div align="center">
 
-> **Unofficial.** This is not WooCommerce's own MCP server and this repository is not affiliated with, endorsed by or supported by WooCommerce. It documents how [HeyMetra](https://heymetra.com/), a remote MCP server built by Zeisoft, reads WooCommerce.
+<img src="assets/cover.png" alt="WooCommerce through HeyMetra's MCP server" width="100%">
+
+# WooCommerce &times; HeyMetra
 
 **Orders, products and the store's own sales figures, from your own server.**
+
+Your orders live in WooCommerce. What you spent to win them lives in your ad accounts. One question, both answers.
 
 [![MCP Registry](https://img.shields.io/badge/MCP_Registry-com.heymetra%2Fheymetra-1f6feb)](https://registry.modelcontextprotocol.io/v0/servers/com.heymetra%2Fheymetra/versions)
 [![Transport](https://img.shields.io/badge/transport-Streamable_HTTP-444)](https://modelcontextprotocol.io/)
 [![Auth](https://img.shields.io/badge/auth-OAuth_2.1-444)](https://heymetra.com/security/)
 [![Connector page](https://img.shields.io/badge/heymetra.com-woocommerce-1f6feb)](https://heymetra.com/connectors/woocommerce/)
 
+```
+https://mcp.heymetra.com/mcp
+```
+
+</div>
+
 ---
 
-## What WooCommerce is
-
-WooCommerce is the open-source store that runs on your own WordPress site — products, orders, customers, and checkout. Because it is self-hosted, your sales data stays on your server rather than a vendor's.
-
-## What HeyMetra reads from WooCommerce
-
-Connect with a REST key whose permission is Read and your MCP client gets three tools: orders for a period with status, items and totals; products with names, SKUs, prices, stock and whether each is published; and WooCommerce's own sales report — gross and net sales, orders, items and refunds, as the store computes them. Stores on the newer order storage have a sales report that cannot see their own orders; there HeyMetra adds the orders up the way WooCommerce would and says so in the answer, rather than reporting the store's zero. A Read key cannot change a product, a price or an order.
-
-## What you can ask
-
-Once connected, in your own assistant, in plain language:
+## Ask it things like
 
 > How many orders did the store take this week?
 
@@ -31,27 +31,7 @@ Once connected, in your own assistant, in plain language:
 
 > How do net sales this month compare with last month?
 
-## Permissions
-
-You switch these on per connection, and a permission you leave off is a tool your assistant never sees.
-
-| Permission | What it covers | Changes anything? |
-|---|---|---|
-| **Orders** | Read orders, statuses, and where they shipped to. | No, read only |
-| **Products** | Read products, stock, and prices. | No, read only |
-| **Sales** | Read the store's own sales report — WooCommerce's sales report reads the older order tables, so a store on the newer storage (HPOS) with compatibility mode off reports nothing sold however much it sold. HeyMetra adds the orders up itself when that happens, counting them the way WooCommerce does, and says in the answer that it did.. | No, read only |
-
-<details>
-<summary>What each permission lets an assistant do, in full</summary>
-
-- Reads how many orders each connected store took in a period and what they came to, with the status of each store's orders. Reported per store.
-- Reads what is listed for sale in each connected store: titles, SKUs or barcodes, prices and stock levels.
-- Reads what each connected account took in a period — payments, store sales, marketplace settlements — reported per account and never added together.
-</details>
-
-## What it can change
-
-- WooCommerce is a read-only source — HeyMetra reads it to answer questions and never changes the account.
+No dashboard, no export, no query language. You ask in the assistant you already use and the answer comes back with the account it came from.
 
 ## Connect WooCommerce
 
@@ -192,6 +172,26 @@ _The key is serverUrl, not url — the one every other JSON client spells differ
 Full walkthrough: [heymetra.com/mcp/antigravity/](https://heymetra.com/mcp/antigravity/)
 </details>
 
+## What it may and may not touch
+
+WooCommerce is a read-only source — HeyMetra reads it to answer questions and never changes the account.
+
+Permissions are switched on per connection, and one you leave off is a tool your assistant never sees.
+
+| Permission | What it covers | Changes anything? |
+|---|---|---|
+| **Orders** | Read orders, statuses, and where they shipped to. | No, read only |
+| **Products** | Read products, stock, and prices. | No, read only |
+| **Sales** | Read the store's own sales report — WooCommerce's sales report reads the older order tables, so a store on the newer storage (HPOS) with compatibility mode off reports nothing sold however much it sold. HeyMetra adds the orders up itself when that happens, counting them the way WooCommerce does, and says in the answer that it did.. | No, read only |
+
+<details>
+<summary>What each permission lets an assistant do, in full</summary>
+
+- Reads how many orders each connected store took in a period and what they came to, with the status of each store's orders. Reported per store.
+- Reads what is listed for sale in each connected store: titles, SKUs or barcodes, prices and stock levels.
+- Reads what each connected account took in a period — payments, store sales, marketplace settlements — reported per account and never added together.
+</details>
+
 ## When something goes wrong
 
 <details>
@@ -248,9 +248,19 @@ Full walkthrough: [heymetra.com/mcp/antigravity/](https://heymetra.com/mcp/antig
 
 </details>
 
-## Everything else HeyMetra reads
+## What HeyMetra reads from WooCommerce
 
-One connection answers across accounts — which is the point, because spend lives in one place and revenue in another:
+Connect with a REST key whose permission is Read and your MCP client gets three tools: orders for a period with status, items and totals; products with names, SKUs, prices, stock and whether each is published; and WooCommerce's own sales report — gross and net sales, orders, items and refunds, as the store computes them. Stores on the newer order storage have a sales report that cannot see their own orders; there HeyMetra adds the orders up the way WooCommerce would and says so in the answer, rather than reporting the store's zero. A Read key cannot change a product, a price or an order.
+
+<details>
+<summary>About WooCommerce</summary>
+
+WooCommerce is the open-source store that runs on your own WordPress site — products, orders, customers, and checkout. Because it is self-hosted, your sales data stays on your server rather than a vendor's.
+</details>
+
+## One connection, not seven
+
+The reason to read WooCommerce through HeyMetra rather than through a server that only knows WooCommerce is everything else it can answer in the same breath:
 
 **Ads** — [Google Ads](https://heymetra.com/connectors/google-ads/) · [Meta](https://heymetra.com/connectors/meta-ads/)
 
@@ -264,17 +274,17 @@ One connection answers across accounts — which is the point, because spend liv
 
 **Channels** — [Slack](https://github.com/zeisoft/slack-mcp) · [Telegram](https://github.com/zeisoft/telegram-mcp)
 
-The full catalogue, with what each one can do today, is at [heymetra.com/connectors/](https://heymetra.com/connectors/).
+The full catalogue is at [heymetra.com/connectors/](https://heymetra.com/connectors/).
 
 ## Links
 
-- [WooCommerce connector page](https://heymetra.com/connectors/woocommerce/) — the source this page is generated from
+- [WooCommerce connector page](https://heymetra.com/connectors/woocommerce/)
 - [HeyMetra](https://heymetra.com/) — what the product is
-- [Setup per assistant](https://heymetra.com/mcp/) — eight clients, step by step
+- [Setup for every assistant](https://heymetra.com/mcp/)
 - [Security and limits](https://heymetra.com/security/)
-- [Pricing](https://heymetra.com/pricing/) — paid, no free plan and no trial
+- [Pricing](https://heymetra.com/pricing/)
 - [HeyMetra's own repository](https://github.com/zeisoft/heymetra-mcp)
 
 ---
 
-<sub>This README is generated from HeyMetra's live connector catalogue and refreshed daily; it is committed only when something in it actually changed. Corrections are welcome as issues. Built by <a href="https://zeisoft.com">Zeisoft</a>.</sub>
+<sub>Built by <a href="https://zeisoft.com">Zeisoft</a>, who make HeyMetra. Not affiliated with WooCommerce. This README is generated from HeyMetra's live connector catalogue and refreshed daily; corrections are welcome as issues.</sub>
