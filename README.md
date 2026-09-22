@@ -184,23 +184,22 @@ Full walkthrough: [heymetra.com/mcp/antigravity/](https://heymetra.com/mcp/antig
 
 ## What it may and may not touch
 
-WooCommerce is a read-only source — HeyMetra reads it to answer questions and never changes the account.
+Propose a change through this account's own API, for operations HeyMetra does not cover. Nothing is sent until you approve it, and HeyMetra cannot undo it afterwards.
 
 Permissions are switched on per connection, and one you leave off is a tool your assistant never sees.
 
 | Permission | What it covers | Changes anything? |
 |---|---|---|
-| **Orders** | Read orders, statuses, and where they shipped to. | No, read only |
-| **Products** | Read products, stock, and prices. | No, read only |
-| **Sales** | Read the store's own sales report — WooCommerce's sales report reads the older order tables, so a store on the newer storage (HPOS) with compatibility mode off reports nothing sold however much it sold. HeyMetra adds the orders up itself when that happens, counting them the way WooCommerce does, and says in the answer that it did.. | No, read only |
+| **Direct API access** | Let your assistant use this account's own API for anything HeyMetra's other operations do not cover. It reads directly, and what comes back is the provider's own answer rather than a figure HeyMetra has checked. It can also propose changes — those are never applied until you approve them, and HeyMetra cannot undo one afterwards — WooCommerce's sales report reads the older order tables, so a store on the newer storage (HPOS) with compatibility mode off reports nothing sold however much it sold. HeyMetra adds the orders up itself when that happens, counting them the way WooCommerce does, and says in the answer that it did.. | Yes — every change waits for your approval |
 
 <details>
 <summary>What each permission lets an assistant do, in full</summary>
 
-- Reads how many orders this WooCommerce store took in a period, what they came to and what status each is in.
-- Reads what is listed for sale in this WooCommerce store: titles, SKUs, prices and stock levels.
-- Reads what this WooCommerce store took in over a period. Never added to another account's figures.
+- Ask this account's own API a question HeyMetra's other operations do not cover. Reads only, and the answer is the provider's own rather than a figure HeyMetra has checked.
+- Propose a change through this account's own API, for operations HeyMetra does not cover. Nothing is sent until you approve it, and HeyMetra cannot undo it afterwards.
 </details>
+
+Anything that would change something comes back as a proposal you approve, inside bounds that live in code rather than in a prompt: ±50% on a budget, 5 campaigns per action and 20 changes a rolling day, and an approval that expires after 30 minutes. [How that works](https://heymetra.com/security/).
 
 ## When something goes wrong
 
