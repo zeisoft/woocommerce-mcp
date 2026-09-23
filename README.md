@@ -259,7 +259,7 @@ Anything that would change something comes back as a proposal you approve, insid
 
 ## What HeyMetra reads from WooCommerce
 
-Connect with a REST key whose permission is Read and your MCP client gets three tools: orders for a period with status, items and totals; products with names, SKUs, prices, stock and whether each is published; and WooCommerce's own sales report — gross and net sales, orders, items and refunds, as the store computes them. Stores on the newer order storage have a sales report that cannot see their own orders; there HeyMetra adds the orders up the way WooCommerce would and says so in the answer, rather than reporting the store's zero. A Read key cannot change a product, a price or an order.
+Connect with a REST key and your MCP client gets one tool that composes calls against the store: orders for a period with status, items and totals; products with names, SKUs, prices, stock and whether each is published; and WooCommerce's own sales report — gross and net sales, orders, items and refunds, as the store computes them. Stores on the newer order storage have a sales report that cannot see their own orders; there HeyMetra adds the orders up the way WooCommerce would and says so in the answer, rather than reporting the store's zero. WooCommerce decides what the key can reach when you create it — Read, or Read/Write — and HeyMetra cannot see which you chose, so it asks you at connect time whether this connection may change anything; a change it is allowed to make still comes back as a proposal and waits for your approval.
 
 <details>
 <summary>About WooCommerce</summary>
@@ -273,13 +273,15 @@ The reason to read WooCommerce through HeyMetra rather than through a server tha
 
 **Ads** — [Google Ads](https://heymetra.com/connectors/google-ads/) · [Meta](https://heymetra.com/connectors/meta-ads/)
 
-**Analytics** — [Google Analytics 4](https://heymetra.com/connectors/google-analytics-4/) · [Google Search Console](https://github.com/zeisoft/google-search-console-mcp)
+**Analytics** — [Google Analytics 4](https://heymetra.com/connectors/google-analytics-4/) · [Google Search Console](https://github.com/zeisoft/google-search-console-mcp) · [PostHog](https://github.com/zeisoft/posthog-mcp)
 
 **Ecommerce** — [Shopify](https://heymetra.com/connectors/shopify/) · [Trendyol](https://github.com/zeisoft/trendyol-mcp) · **WooCommerce**
 
 **Revenue & CRM** — [Stripe](https://heymetra.com/connectors/stripe/) · [HubSpot](https://heymetra.com/connectors/hubspot/) · [Zoho CRM](https://github.com/zeisoft/zoho-crm-mcp) · [Zoho SalesIQ](https://github.com/zeisoft/zoho-salesiq-mcp) · [Zoho Marketing Automation](https://github.com/zeisoft/zoho-marketing-automation-mcp)
 
 **Mobile** — [AppsFlyer](https://github.com/zeisoft/appsflyer-mcp) · [RevenueCat](https://heymetra.com/connectors/revenuecat/) · [Adapty](https://github.com/zeisoft/adapty-mcp) · [App Store Connect](https://github.com/zeisoft/app-store-connect-mcp)
+
+**Work** — [Google Calendar](https://heymetra.com/connectors/google-calendar/) · [Google Meet](https://heymetra.com/connectors/google-meet/) · [Jira](https://github.com/zeisoft/jira-mcp)
 
 **Channels** — [Slack](https://github.com/zeisoft/slack-mcp) · [Telegram](https://github.com/zeisoft/telegram-mcp)
 
