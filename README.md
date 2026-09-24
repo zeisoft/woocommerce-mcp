@@ -41,11 +41,13 @@ Sign in to the store's WordPress admin and go to WooCommerce → Settings → Ad
 
 > It is under WooCommerce, not under the WordPress Settings menu — WordPress has an unrelated Settings of its own, and there is no REST API tab in it.
 
-**2. Add a key whose permission is Read**
+**2. Add a key, and choose what it may do**
 
-Choose Add key, give it a description you will recognise later, pick a user who can see orders, and set Permissions to Read. Then Generate API key.
+Choose Add key, give it a description you will recognise later, and pick a user who can see orders. Then set Permissions — Read if this assistant should only answer questions, or Read/Write if you also want it to propose changes to products, prices and orders. Then Generate API key.
 
-> Read is not only a precaution: it is what makes the store itself refuse a change, so nothing an assistant does can edit a product, a price or an order even if it tried. The key inherits the chosen user's rights, so a user who cannot see orders produces a key that cannot either.
+> The choice is yours and it is enforced by WooCommerce rather than by us: a Read key makes the store itself refuse a change, so nothing can edit anything even by mistake. A Read/Write key can, and HeyMetra still shows you every change as a card and does nothing until you approve it — but the store would accept one. HeyMetra cannot see which you picked, which is why it asks you separately on this screen.
+
+Either way the key inherits the chosen user's rights, so a user who cannot see orders produces a key that cannot either.
 
 **3. Copy the consumer key and the consumer secret**
 
@@ -190,7 +192,7 @@ Permissions are switched on per connection, and one you leave off is a tool your
 
 | Permission | What it covers | Changes anything? |
 |---|---|---|
-| **Direct API access** | Let your assistant use this account's own API for anything HeyMetra's other operations do not cover. It reads directly, and what comes back is the provider's own answer rather than a figure HeyMetra has checked. It can also propose changes — those are never applied until you approve them, and HeyMetra cannot undo one afterwards — WooCommerce's sales report reads the older order tables, so a store on the newer storage (HPOS) with compatibility mode off reports nothing sold however much it sold. HeyMetra adds the orders up itself when that happens, counting them the way WooCommerce does, and says in the answer that it did.. | Yes — every change waits for your approval |
+| **Direct API access** | Let your assistant use this account's own API for anything HeyMetra's other operations do not cover. It reads directly, and what comes back is the provider's own answer rather than a figure HeyMetra has checked. It can also propose changes — those are never applied until you approve them, and HeyMetra cannot undo one afterwards — WooCommerce's sales report reads the older order tables, so a store on the newer storage (HPOS) with compatibility mode off reports nothing sold however much it sold — measured on a live store with 297 orders in it, every figure in that report came back zero. Your assistant is told to check it against the orders and add them up rather than repeat the zero, and to say when it has, because that arithmetic is its own rather than the store's.. | Yes — every change waits for your approval |
 
 <details>
 <summary>What each permission lets an assistant do, in full</summary>
@@ -240,11 +242,13 @@ Anything that would change something comes back as a proposal you approve, insid
 </details>
 
 <details>
-<summary>The sales figures arrive with a note saying HeyMetra added the orders up because the store's own report could not.</summary>
+<summary>The sales report answers zero for a period the store plainly sold in, and your assistant adds the orders up instead and says so.</summary>
 
 **Why:** The store keeps orders in WooCommerce's newer storage (HPOS) with compatibility mode off. The sales report reads the older tables, which nothing writes to any more, so it reports nothing sold — measured on a live 9.4.5 store, for a whole year it had sold in.
 
-**Fix:** Nothing needs fixing for the figures to be right: they are counted the way WooCommerce counts them — completed, processing and on-hold orders, net being gross less tax and shipping. To have the store's own report answer again, turn on WooCommerce → Settings → Advanced → Features → compatibility mode; it fills the old tables from the new ones from that point on, so figures from before it was turned on stay missing there.
+**Fix:** Turn on WooCommerce → Settings → Advanced → Features → compatibility mode. It fills the old tables from the new ones from that point on, so figures from before it was turned on stay missing there — which is worth knowing before you compare two periods across that date.
+
+Until then your assistant can still answer about revenue, by adding up the orders themselves; it will say that it did. What it must not do is repeat the report's zero, and if you are ever shown a flat zero for a period you know you sold in, this is the reason.
 
 </details>
 
@@ -259,7 +263,7 @@ Anything that would change something comes back as a proposal you approve, insid
 
 ## What HeyMetra reads from WooCommerce
 
-Connect with a REST key and your MCP client gets one tool that composes calls against the store: orders for a period with status, items and totals; products with names, SKUs, prices, stock and whether each is published; and WooCommerce's own sales report — gross and net sales, orders, items and refunds, as the store computes them. Stores on the newer order storage have a sales report that cannot see their own orders; there HeyMetra adds the orders up the way WooCommerce would and says so in the answer, rather than reporting the store's zero. WooCommerce decides what the key can reach when you create it — Read, or Read/Write — and HeyMetra cannot see which you chose, so it asks you at connect time whether this connection may change anything; a change it is allowed to make still comes back as a proposal and waits for your approval.
+Connect with a REST key and your MCP client gets one tool that composes calls against the store: orders for a period with status, items and totals; products with names, SKUs, prices, stock and whether each is published; and WooCommerce's own sales report — gross and net sales, orders, items and refunds, as the store computes them. One thing about this store's own figures is worth knowing before you connect it: WooCommerce's sales report reads older tables, so a store on the newer order storage reports nothing sold however much it sold. Your assistant is told to check that report against the orders and to add them up rather than repeat a zero — and to say when it has. WooCommerce decides what the key can reach when you create it — Read, or Read/Write — and HeyMetra cannot see which you chose, so it asks you at connect time whether this connection may change anything; a change it is allowed to make still comes back as a proposal and waits for your approval.
 
 <details>
 <summary>About WooCommerce</summary>
