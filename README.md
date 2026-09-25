@@ -39,13 +39,13 @@ No dashboard, no export, no query language. You ask in the assistant you already
 
 Sign in to the store's WordPress admin and go to WooCommerce → Settings → Advanced → REST API. The screen lists the keys the store has already issued, and has an Add key button.
 
-> It is under WooCommerce, not under the WordPress Settings menu — WordPress has an unrelated Settings of its own, and there is no REST API tab in it.
+> It is under WooCommerce, not under the WordPress Settings menu. WordPress has an unrelated Settings of its own, and there is no REST API tab in it.
 
 **2. Add a key, and choose what it may do**
 
-Choose Add key, give it a description you will recognise later, and pick a user who can see orders. Then set Permissions — Read if this assistant should only answer questions, or Read/Write if you also want it to propose changes to products, prices and orders. Then Generate API key.
+Choose Add key, give it a description you will recognise later, and pick a user who can see orders. Then set Permissions: Read if this assistant should only answer questions, or Read/Write if you also want it to propose changes to products, prices and orders. Then Generate API key.
 
-> The choice is yours and it is enforced by WooCommerce rather than by us: a Read key makes the store itself refuse a change, so nothing can edit anything even by mistake. A Read/Write key can, and HeyMetra still shows you every change as a card and does nothing until you approve it — but the store would accept one. HeyMetra cannot see which you picked, which is why it asks you separately on this screen.
+> The choice is yours and WooCommerce enforces it: with a Read key the store itself refuses any change, so nothing can be edited even by mistake. A Read/Write key lets the store accept changes, and HeyMetra still shows you every change as a card and does nothing until you approve it. HeyMetra cannot see which you picked, which is why it asks you separately on this screen.
 
 Either way the key inherits the chosen user's rights, so a user who cannot see orders produces a key that cannot either.
 
@@ -53,21 +53,21 @@ Either way the key inherits the chosen user's rights, so a user who cannot see o
 
 Both appear once, on the screen that follows Generate. The consumer key starts with ck_ and the secret with cs_, so they cannot be confused with one another.
 
-> Leaving that screen loses the secret for good — WordPress does not show it again, and the only remedy is to revoke the key and issue another.
+> Leaving that screen loses the secret for good. WordPress does not show it again, and the only remedy is to revoke the key and issue another.
 
 **4. Paste the secret into HeyMetra**
 
-Choose WooCommerce on the Connections screen and paste the consumer secret. It goes to the vault and is never shown again, here or anywhere else.
+Choose WooCommerce on the Connections screen and paste the consumer secret. It is stored encrypted and never shown again, here or anywhere else.
 
 **5. Enter the store address exactly as the store answers**
 
 https:// and the host, nothing after it. If the store answers at www.yourstore.com, type the www.; if it answers without it, leave it out. Saving checks the address and the key against the store immediately.
 
-> HeyMetra does not follow a redirect from the address you give it — following one would let a store send us to an address nobody checked — so the wrong half of a www. pair fails rather than quietly working.
+> HeyMetra does not follow a redirect from the address you give it, because that would let a store send it somewhere nobody checked. So the wrong half of a www. pair fails rather than quietly working.
 
 **6. Add HeyMetra to the assistant you use**
 
-Claude, ChatGPT, Cursor or Codex — HeyMetra gives you the address and the key to paste. The orders, products and sales tools appear in that assistant once it connects.
+Claude, ChatGPT, Cursor or Codex. HeyMetra gives you the address and the key to paste, and your store answers in that assistant once it connects.
 
 ## Then add HeyMetra to your assistant
 
@@ -102,7 +102,7 @@ Full walkthrough: [heymetra.com/mcp/claude/](https://heymetra.com/mcp/claude/)
 
 Paste the address above into Settings → Security and login → Developer mode, then chatgpt.com/plugins.
 
-_The endpoint has to include its /mcp path here._
+_The address has to end in /mcp here._
 
 Full walkthrough: [heymetra.com/mcp/chatgpt/](https://heymetra.com/mcp/chatgpt/)
 </details>
@@ -163,7 +163,7 @@ Full walkthrough: [heymetra.com/mcp/codex/](https://heymetra.com/mcp/codex/)
 }
 ```
 
-_Leave the static OAuth fields empty — they exist for servers that cannot register themselves._
+_Leave the static OAuth fields empty; HeyMetra does not need them._
 
 Full walkthrough: [heymetra.com/mcp/cursor/](https://heymetra.com/mcp/cursor/)
 </details>
@@ -179,26 +179,26 @@ Full walkthrough: [heymetra.com/mcp/cursor/](https://heymetra.com/mcp/cursor/)
 }
 ```
 
-_The key is serverUrl, not url — the one every other JSON client spells differently._
+_The key is serverUrl, not url, unlike every other JSON client._
 
 Full walkthrough: [heymetra.com/mcp/antigravity/](https://heymetra.com/mcp/antigravity/)
 </details>
 
 ## What it may and may not touch
 
-Propose a change through this account's own API, for operations HeyMetra does not cover. Nothing is sent until you approve it, and HeyMetra cannot undo it afterwards.
+Propose a change to this account. Nothing is sent until you approve it, and HeyMetra cannot undo it afterwards.
 
 Permissions are switched on per connection, and one you leave off is a tool your assistant never sees.
 
 | Permission | What it covers | Changes anything? |
 |---|---|---|
-| **Direct API access** | Let your assistant use this account's own API for anything HeyMetra's other operations do not cover. It reads directly, and what comes back is the provider's own answer rather than a figure HeyMetra has checked. It can also propose changes — those are never applied until you approve them, and HeyMetra cannot undo one afterwards — WooCommerce's sales report reads the older order tables, so a store on the newer storage (HPOS) with compatibility mode off reports nothing sold however much it sold — measured on a live store with 297 orders in it, every figure in that report came back zero. Your assistant is told to check it against the orders and add them up rather than repeat the zero, and to say when it has, because that arithmetic is its own rather than the store's.. | Yes — every change waits for your approval |
+| **Full account access** | Lets your assistant read anything in this account to answer your questions. The figures are the provider's own, not ones HeyMetra has checked. It can also propose changes: none is applied until you approve it, and HeyMetra cannot undo one afterwards — WooCommerce's sales report reads the older order tables, so a store on the newer storage (HPOS) with compatibility mode off reports nothing sold however much it sold. Measured on a live store with 297 orders in it, every figure in that report came back zero. Your assistant checks it against the orders and adds them up rather than repeat the zero, and says when it has, because that arithmetic is its own rather than the store's.. | Yes — every change waits for your approval |
 
 <details>
 <summary>What each permission lets an assistant do, in full</summary>
 
-- Ask this account's own API a question HeyMetra's other operations do not cover. Reads only, and the answer is the provider's own rather than a figure HeyMetra has checked.
-- Propose a change through this account's own API, for operations HeyMetra does not cover. Nothing is sent until you approve it, and HeyMetra cannot undo it afterwards.
+- Ask anything about this account and get the answer from its live data. Reads only, and the figures are the provider's own rather than ones HeyMetra has checked.
+- Propose a change to this account. Nothing is sent until you approve it, and HeyMetra cannot undo it afterwards.
 </details>
 
 Anything that would change something comes back as a proposal you approve, inside bounds that live in code rather than in a prompt: ±50% on a budget, 5 campaigns per action and 20 changes a rolling day, and an approval that expires after 30 minutes. [How that works](https://heymetra.com/security/).
@@ -208,7 +208,7 @@ Anything that would change something comes back as a proposal you approve, insid
 <details>
 <summary>Saving fails and the answer says the store redirected the request.</summary>
 
-**Why:** The address on the connection is one the store redirects away from — almost always a www. that belongs, or one that does not. Measured on a live store: the www. form answers 301 and names the address that works.
+**Why:** The address on the connection is one the store redirects away from, almost always because of a www. that belongs or one that does not. Measured on a live store: the www. form answers 301 and names the address that works.
 
 **Fix:** The message names the address the store redirected to. Put that one on the connection, without the path, and save again.
 
@@ -237,16 +237,16 @@ Anything that would change something comes back as a proposal you approve, insid
 
 **Why:** The period genuinely holds none. Unlike a marketplace, WooCommerce keeps the store's whole history, so an empty answer here is the store's answer rather than a retention limit.
 
-**Fix:** Ask about a wider period. If the store's own Orders screen shows rows in the same dates, check the key's user can see orders — a key made for a customer account reads none.
+**Fix:** Ask about a wider period. If the store's own Orders screen shows rows in the same dates, check the key's user can see orders. A key made for a customer account reads none.
 
 </details>
 
 <details>
 <summary>The sales report answers zero for a period the store plainly sold in, and your assistant adds the orders up instead and says so.</summary>
 
-**Why:** The store keeps orders in WooCommerce's newer storage (HPOS) with compatibility mode off. The sales report reads the older tables, which nothing writes to any more, so it reports nothing sold — measured on a live 9.4.5 store, for a whole year it had sold in.
+**Why:** The store keeps orders in WooCommerce's newer storage (HPOS) with compatibility mode off. The sales report reads the older tables, which nothing writes to any more, so it reports nothing sold. Measured on a live 9.4.5 store, for a whole year it had sold in.
 
-**Fix:** Turn on WooCommerce → Settings → Advanced → Features → compatibility mode. It fills the old tables from the new ones from that point on, so figures from before it was turned on stay missing there — which is worth knowing before you compare two periods across that date.
+**Fix:** Turn on WooCommerce → Settings → Advanced → Features → compatibility mode. It fills the old tables from the new ones from that point on, so figures from before it was turned on stay missing there. That is worth knowing before you compare two periods across that date.
 
 Until then your assistant can still answer about revenue, by adding up the orders themselves; it will say that it did. What it must not do is repeat the report's zero, and if you are ever shown a flat zero for a period you know you sold in, this is the reason.
 
@@ -263,12 +263,12 @@ Until then your assistant can still answer about revenue, by adding up the order
 
 ## What HeyMetra reads from WooCommerce
 
-Connect with a REST key and your MCP client gets one tool that composes calls against the store: orders for a period with status, items and totals; products with names, SKUs, prices, stock and whether each is published; and WooCommerce's own sales report — gross and net sales, orders, items and refunds, as the store computes them. One thing about this store's own figures is worth knowing before you connect it: WooCommerce's sales report reads older tables, so a store on the newer order storage reports nothing sold however much it sold. Your assistant is told to check that report against the orders and to add them up rather than repeat a zero — and to say when it has. WooCommerce decides what the key can reach when you create it — Read, or Read/Write — and HeyMetra cannot see which you chose, so it asks you at connect time whether this connection may change anything; a change it is allowed to make still comes back as a proposal and waits for your approval.
+Connect with a REST key, then ask about the store from your assistant: orders for a period with status, items and totals; products with names, SKUs, prices, stock and whether each is published; and WooCommerce's own sales report, with gross and net sales, orders, items and refunds as the store computes them. One thing is worth knowing before you connect: on stores that use WooCommerce's newer order storage, that sales report can show nothing sold however much the store sold. Your assistant checks the report against the orders, adds them up itself rather than repeat a zero, and tells you when it has. When you connect, you choose whether your assistant may also propose changes, and every change it proposes waits for your approval.
 
 <details>
 <summary>About WooCommerce</summary>
 
-WooCommerce is the open-source store that runs on your own WordPress site — products, orders, customers, and checkout. Because it is self-hosted, your sales data stays on your server rather than a vendor's.
+WooCommerce is the open-source store that runs on your own WordPress site: products, orders, customers, and checkout. Because it is self-hosted, your sales data stays on your server rather than a vendor's.
 </details>
 
 ## One connection, not seven
