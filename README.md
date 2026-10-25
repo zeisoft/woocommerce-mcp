@@ -67,7 +67,7 @@ https:// and the host, nothing after it. If the store answers at www.yourstore.c
 
 **6. Add HeyMetra to the assistant you use**
 
-Claude, ChatGPT, Cursor or Codex. HeyMetra gives you the address and the key to paste, and your store answers in that assistant once it connects.
+Claude, ChatGPT, Cursor or Codex. You paste one address and sign in once, and your store answers in that assistant once it connects.
 
 ## Then add HeyMetra to your assistant
 
