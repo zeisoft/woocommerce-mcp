@@ -275,7 +275,7 @@ WooCommerce is the open-source store that runs on your own WordPress site: produ
 
 The reason to read WooCommerce through HeyMetra rather than through a server that only knows WooCommerce is everything else it can answer in the same breath:
 
-**Ads** — [Google Ads](https://heymetra.com/connectors/google-ads/) · [Meta](https://heymetra.com/connectors/meta-ads/)
+**Ads** — [Google Ads](https://github.com/zeisoft/google-ads-mcp) · [Meta](https://heymetra.com/connectors/meta-ads/)
 
 **Analytics** — [Google Analytics 4](https://github.com/zeisoft/google-analytics-4-mcp) · [Google Search Console](https://github.com/zeisoft/google-search-console-mcp) · [PostHog](https://github.com/zeisoft/posthog-mcp)
 
